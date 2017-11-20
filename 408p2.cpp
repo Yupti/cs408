@@ -2,6 +2,10 @@
 
 using namespace std;
 
+int r = 0, c = 0, r2 = 0, c2 = 0, init = 0, choice = 0;
+double **M1, **M2, **M3 = 0, **M4 = 0, **M5 = 0;
+
+
 void menu() {
 	cout << "Enter choice:" << endl;
 	cout << "(1) M3 = M1 + M2\n" << "(2) M4 = M1 - M2" << endl;
@@ -9,7 +13,7 @@ void menu() {
 }
 
 
-void printMatrix2(double** matrix, int row, int col) {
+void printMatrix(double** matrix, int row, int col) {
 	if (matrix == 0)
 		cout << "Matrix not created yet." << endl;
 	else {
@@ -22,60 +26,69 @@ void printMatrix2(double** matrix, int row, int col) {
 	}	
 }
 
-double** sum(double** M1, double** M2, int row, int col) {
-	double** new2Darray = 0;
-	new2Darray = new double*[row];
+void sum() {
+	M3 = new double*[r];
 
-	for (int i = 0; i < row; i++) {
-		new2Darray[i] = new double[col];
-		for (int j = 0; j < col; j++) {
-			new2Darray[i][j] = M1[i][j] + M2[i][j];
+	for (int i = 0; i < r; i++) {
+		M3[i] = new double[c];
+		for (int j = 0; j < c; j++) {
+			M3[i][j] = M1[i][j] + M2[i][j];
 		}
 	}
-
-	return new2Darray;
 }
 
 
-double** difference(double** M1, double** M2, int row, int col) {
-	double** new2Darray = 0;
-	new2Darray = new double*[row];
+void difference() {
+	M4 = new double*[r];
 
-	for (int i = 0; i < row; i++) {
-		new2Darray[i] = new double[col];
-		for (int j = 0; j < col; j++) {
-			new2Darray[i][j] = M1[i][j] - M2[i][j];
+	for (int i = 0; i < r; i++) {
+		M4[i] = new double[c];
+		for (int j = 0; j < c; j++) {
+			M4[i][j] = M1[i][j] - M2[i][j];
 		}
 	}
-
-	return new2Darray;
 }
 
-double** multiply(double** M1, double** M2, int row, int col, int col2) {
-	double** new2Darray = 0;
-	new2Darray = new double*[row];
+void multiply() {
+	M5 = new double*[r];
 
-	for (int i = 0; i < row; i++) {
-		new2Darray[i] = new double[col];  
-		for (int j = 0; j < col2; j++) {  
-			// Multiply the row of A by the column of B to get the row, column of product.  
-			for (int inner = 0; inner < col; inner++) {  
-				new2Darray[i][j] += M1[i][inner] * M2[inner][j];  
+	for (int i = 0; i < r; i++) {
+		M5[i] = new double[c2];  
+		for (int j = 0; j < c2; j++) {    
+			for (int inner = 0; inner < c; inner++) {  
+				M5[i][j] += M1[i][inner] * M2[inner][j];  
 			}    
 		}   
 	}
-
-	return new2Darray;
 }
 
+void preload() {
+	r = 5, c = 5, r2 = 5, c2 = 5;
 
-int main() {
+	M1 = new double*[r];
+	for (int i = 0; i < r; i++) {
+		*(M1 + i) = new double[c];
+	}
 
-	int r = 0, c = 0, r2 = 0, c2 = 0, choice = 0;
-	double** M3 = 0;
-	double** M4 = 0;
-	double** M5 = 0;
+	M1[0][0] = 1.0; M1[0][1] = 2.0; M1[0][2] = 3.0; M1[0][3] = 4.0; M1[0][4] = 5.0;
+	M1[1][0] = 2.0; M1[1][1] = 2.0; M1[1][2] = 2.0; M1[1][3] = 2.0; M1[1][4] = 2.0;
+	M1[2][0] = 3.0; M1[2][1] = 1.0; M1[2][2] = 1.0; M1[2][3] = 1.0; M1[2][4] = 3.0;
+	M1[3][0] = 0.0; M1[3][1] = 0.0; M1[3][2] = 2.0; M1[3][3] - 3.0; M1[3][4] = -2.0;
+	M1[4][0] = 4.0; M1[4][1] = 4.0; M1[4][2] = -4.0; M1[4][3] = 0.0; M1[4][4] = 0.0;
 
+	M2 = new double*[r];
+	for (int j  = 0; j < r; j++) {
+		*(M2 + j) = new double[c2];
+	}
+
+	M2[0][0] = 1.0; M2[0][1] = 0.0; M2[0][2] = 0.0; M2[0][3] = 0.0; M2[0][4] = 0.0;
+	M2[1][0] = 1.0; M2[1][1] = 2.0; M2[1][2] = 1.0; M2[1][3] = 2.0; M2[1][4] = 1.0;
+	M2[2][0] = 0.0; M2[2][1] = 0.0; M2[2][2] = 1.0; M2[2][3] = 0.0; M2[2][4] = 0.0;
+	M2[3][0] = 1.0; M2[3][1] = 1.0; M2[3][2] = 1.0; M2[3][3] = 1.0; M2[3][4] = 1.0;
+	M2[4][0] = 2.0; M2[4][1] = 2.0; M2[4][2] = -2.0; M2[4][3] = 2.0; M2[4][4] = 2.0;
+}
+
+void userload() {
 	cout << "Enter number of rows and columns respecitively, separated by a space for M1" << endl;
 	cin >> r >> c;
 	double** M1 = new double*[r];
@@ -88,8 +101,6 @@ int main() {
 		}
 	}
 
-	//printMatrix2(M1, r, c); // good for pointer to pointer arrays, like so
-
 	cout << "Enter number of rows and columns respecitively, separated by a space for M2" << endl;
 	cin >> r2 >> c2;
 	double** M2 = new double*[r2];
@@ -101,9 +112,25 @@ int main() {
 			cin >> M2[i][j];
 		}
 	}
+}
 
-	// ADD/SUBT: IF R != R2 AND C != C2, DOES NOT WORK
-	// MULT: IF C != R2, DOES NOT WORK
+int main() {
+
+	cout << "Enter (1) for preloaded matrix, or (2) for user input" << endl;
+	cin >> init;
+
+	switch (init) {
+		case 1:
+			preload();
+			break;
+		case 2:
+			userload();
+			break;
+		default:
+			preload();
+			break;
+	}
+
 	do {
 		menu();
 		cin >> choice;
@@ -111,55 +138,55 @@ int main() {
 		switch (choice) {
 			case 1:
 				if (r == r2 && c == c2)
-					M3 = sum(M1, M2, r, c);
+					sum();
 				else
 					cout << "Matrices are not of same dimensions, unable to perform addition." << endl;
 
 				cout << "M1" << endl;
-				printMatrix2(M1, r, c);
+				printMatrix(M1, r, c);
 				cout << "M2" << endl;
-				printMatrix2(M2, r, c);
+				printMatrix(M2, r, c);
 				cout << "M3" << endl;
-				printMatrix2(M3, r, c);
+				printMatrix(M3, r, c);
 				cout << "M4" << endl;
-				printMatrix2(M4, r, c);
+				printMatrix(M4, r, c);
 				cout << "M5" << endl;
-				printMatrix2(M5, r, c2);
+				printMatrix(M5, r, c2);
 
 				break;
 			case 2:
 				if (r == r2 && c == c2) 
-					M4 = difference(M1, M2, r, c);
+					difference();
 				else
 					cout << "Matrices are not of same dimensions, unable to perform subtraction." << endl;
 
 				cout << "M1" << endl;
-				printMatrix2(M1, r, c);
+				printMatrix(M1, r, c);
 				cout << "M2" << endl;
-				printMatrix2(M2, r, c);
+				printMatrix(M2, r, c);
 				cout << "M3" << endl;
-				printMatrix2(M3, r, c);
+				printMatrix(M3, r, c);
 				cout << "M4" << endl;
-				printMatrix2(M4, r, c);
+				printMatrix(M4, r, c);
 				cout << "M5" << endl;
-				printMatrix2(M5, r, c2);
+				printMatrix(M5, r, c2);
 				break;
 			case 3:
 				if (c == r2)
-					M5 = multiply(M1, M2, r, c, c2);
+					multiply();
 				else
 					cout << "Matrices are not of compatible dimensions, unable to perform multiplication." << endl;
 
 				cout << "M1" << endl;
-				printMatrix2(M1, r, c);
+				printMatrix(M1, r, c);
 				cout << "M2" << endl;
-				printMatrix2(M2, r, c);
+				printMatrix(M2, r, c);
 				cout << "M3" << endl;
-				printMatrix2(M3, r, c);
+				printMatrix(M3, r, c);
 				cout << "M4" << endl;
-				printMatrix2(M4, r, c);
+				printMatrix(M4, r, c);
 				cout << "M5" << endl;
-				printMatrix2(M5, r, c2);
+				printMatrix(M5, r, c2);
 
 				break;
 			case 4:
