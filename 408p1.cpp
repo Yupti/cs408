@@ -81,8 +81,7 @@ void difference() {
 void multiply() {
 
 	for (int i = 0; i < ROWS; i++) {  
-		for (int j = 0; j < COLS; j++) {  
-			// Multiply the row of A by the column of B to get the row, column of product.  
+		for (int j = 0; j < COLS; j++) {   
 			for (int inner = 0; inner < COLS; inner++) {  
 				M5[i][j] += M1[i][inner] * M2[inner][j];  
 			}    

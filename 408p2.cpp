@@ -51,13 +51,13 @@ double** difference(double** M1, double** M2, int row, int col) {
 	return new2Darray;
 }
 
-double** multiply(double** M1, double** M2, int row, int col) {
+double** multiply(double** M1, double** M2, int row, int col, int col2) {
 	double** new2Darray = 0;
 	new2Darray = new double*[row];
 
 	for (int i = 0; i < row; i++) {
 		new2Darray[i] = new double[col];  
-		for (int j = 0; j < col; j++) {  
+		for (int j = 0; j < col2; j++) {  
 			// Multiply the row of A by the column of B to get the row, column of product.  
 			for (int inner = 0; inner < col; inner++) {  
 				new2Darray[i][j] += M1[i][inner] * M2[inner][j];  
@@ -92,11 +92,11 @@ int main() {
 
 	cout << "Enter number of rows and columns respecitively, separated by a space for M2" << endl;
 	cin >> r2 >> c2;
-	double** M2 = new double*[r];
+	double** M2 = new double*[r2];
 
 	cout << "Enter all the values for the matrix of size: " << r2 << " by " << c2 << endl;
 	for (int i = 0; i < r2; i++) {
-		M2[i] = new double[c];
+		M2[i] = new double[c2];
 		for (int j = 0; j < c2; j++) {
 			cin >> M2[i][j];
 		}
@@ -110,58 +110,57 @@ int main() {
 
 		switch (choice) {
 			case 1:
-				if ((r == r2 && c == c2) && (c == c2)) {
+				if (r == r2 && c == c2)
 					M3 = sum(M1, M2, r, c);
-					cout << "M1" << endl;
-					printMatrix2(M1, r, c);
-					cout << "M2" << endl;
-					printMatrix2(M2, r, c);
-					cout << "M3" << endl;
-					printMatrix2(M3, r, c);
-					cout << "M4" << endl;
-					printMatrix2(M4, r, c);
-					cout << "M5" << endl;
-					printMatrix2(M5, r, c);
-				}
-				else {
-					cout << "Matrices do not have same dimensions, must restart program." << endl;
-				}
+				else
+					cout << "Matrices are not of same dimensions, unable to perform addition." << endl;
+
+				cout << "M1" << endl;
+				printMatrix2(M1, r, c);
+				cout << "M2" << endl;
+				printMatrix2(M2, r, c);
+				cout << "M3" << endl;
+				printMatrix2(M3, r, c);
+				cout << "M4" << endl;
+				printMatrix2(M4, r, c);
+				cout << "M5" << endl;
+				printMatrix2(M5, r, c2);
+
 				break;
 			case 2:
-				if ((r == r2 && c == c2) && (c == c2)) {
+				if (r == r2 && c == c2) 
 					M4 = difference(M1, M2, r, c);
-					cout << "M1" << endl;
-					printMatrix2(M1, r, c);
-					cout << "M2" << endl;
-					printMatrix2(M2, r, c);
-					cout << "M3" << endl;
-					printMatrix2(M3, r, c);
-					cout << "M4" << endl;
-					printMatrix2(M4, r, c);
-					cout << "M5" << endl;
-					printMatrix2(M5, r, c);
-				}
-				else {
-					cout << "Matrices do not have same dimensions, must restart program." << endl;
-				}
+				else
+					cout << "Matrices are not of same dimensions, unable to perform subtraction." << endl;
+
+				cout << "M1" << endl;
+				printMatrix2(M1, r, c);
+				cout << "M2" << endl;
+				printMatrix2(M2, r, c);
+				cout << "M3" << endl;
+				printMatrix2(M3, r, c);
+				cout << "M4" << endl;
+				printMatrix2(M4, r, c);
+				cout << "M5" << endl;
+				printMatrix2(M5, r, c2);
 				break;
 			case 3:
-				if ((r == r2 && c == c2) && (c == c2)) {
-					M5 = multiply(M1, M2, r, c2);
-					cout << "M1" << endl;
-					printMatrix2(M1, r, c);
-					cout << "M2" << endl;
-					printMatrix2(M2, r, c);
-					cout << "M3" << endl;
-					printMatrix2(M3, r, c);
-					cout << "M4" << endl;
-					printMatrix2(M4, r, c);
-					cout << "M5" << endl;
-					printMatrix2(M5, r, c);
-				}
-				else {
-					cout << "Matrices do not have same dimensions, must restart program." << endl;
-				}
+				if (c == r2)
+					M5 = multiply(M1, M2, r, c, c2);
+				else
+					cout << "Matrices are not of compatible dimensions, unable to perform multiplication." << endl;
+
+				cout << "M1" << endl;
+				printMatrix2(M1, r, c);
+				cout << "M2" << endl;
+				printMatrix2(M2, r, c);
+				cout << "M3" << endl;
+				printMatrix2(M3, r, c);
+				cout << "M4" << endl;
+				printMatrix2(M4, r, c);
+				cout << "M5" << endl;
+				printMatrix2(M5, r, c2);
+
 				break;
 			case 4:
 				cout << "Thank you for using this program!" << endl;
