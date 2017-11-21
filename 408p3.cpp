@@ -1,5 +1,5 @@
 #include <iostream>
-// TODO: POINTER MANIUPULATION DOES NOT WORK
+// TODO: POINTER MANIUPULATION DOES NOT WORK, OPERATOR OVERLOAD IS WRONG
 using namespace std;
 
 class Matrix {
@@ -40,12 +40,12 @@ void Matrix::menu() {
 	int loader = 0, loader2 = 0;
 
 	cout << "Setting Matrix values for " << getName() << "." << endl;
-	cout << "Enter (1) for preload settings, or (2) for user input; if not, will default to preload M2." << endl;
+	cout << "Enter (1) for preload settings, or (2) for user input; if not, will default to preload 0." << endl;
 	cin >> loader;
 
 	switch (loader) {
 		case 1:
-			cout << "Enter (1) for M1 preset, or (2) for M2 preset; if not, will default to M2." << endl;
+			cout << "Enter (1) for M1 preset, or (2) for M2 preset; if not, will default to 0." << endl;
 			cin >> loader2;
 			preload(loader2);
 			break;
@@ -53,7 +53,7 @@ void Matrix::menu() {
 			userload();
 			break;
 		default:
-			preload(2);
+			preload(0);
 			break;
 	}
 }
@@ -65,14 +65,15 @@ void Matrix::printMatrix() {
 	else {
 		for (int i = 0; i < getRow(); i++) {
 			for (int j = 0; j < getCol(); j++) {
-				cout << *(*(matrix+i)+j) << " ";
+				//cout << *(*(matrix+i)+j) << " ";
+				cout << matrix[i][j] << " ";
 			}
 			cout << endl;
 		}
 	}
 }
 
-void Matrix::preload(int version) {
+void Matrix::preload(int version = 0) {
 	row = 5;
 	col = 5;
 
@@ -87,7 +88,7 @@ void Matrix::preload(int version) {
 		matrix[3][0] = 0.0; matrix[3][1] = 0.0; matrix[3][2] = 2.0; matrix[3][3] - 3.0; matrix[3][4] = -2.0;
 		matrix[4][0] = 4.0; matrix[4][1] = 4.0; matrix[4][2] = -4.0; matrix[4][3] = 0.0; matrix[4][4] = 0.0;
 	}
-	else {
+	else if (version == 2) {
 		matrix = new double*[row];
 		for (int j  = 0; j < row; j++) 
 			*(matrix + j) = new double[col];
@@ -97,6 +98,15 @@ void Matrix::preload(int version) {
 		matrix[2][0] = 0.0; matrix[2][1] = 0.0; matrix[2][2] = 1.0; matrix[2][3] = 0.0; matrix[2][4] = 0.0;
 		matrix[3][0] = 1.0; matrix[3][1] = 1.0; matrix[3][2] = 1.0; matrix[3][3] = 1.0; matrix[3][4] = 1.0;
 		matrix[4][0] = 2.0; matrix[4][1] = 2.0; matrix[4][2] = -2.0; matrix[4][3] = 2.0; matrix[4][4] = 2.0;
+	}
+	else {
+		matrix = new double*[row];
+		for (int i = 0; i < row; i++) 
+			*(matrix + i) = new double[col];
+
+		for (int i = 0; i < row; i++)
+			for (int j = 0; j < col; j++)
+				matrix[i][j] = 0.0;
 	}
 }
 
@@ -140,13 +150,27 @@ string Matrix::getName() {
 }
 
 void Matrix::fill() {
-	matrix = new double*[row];
 
-	for (int i = 0; i < row; i++) {
+	/*matrix = new double*[row];
+		for (int j  = 0; j < row; j++) 
+			*(matrix + j) = new double[col];*/	
+
+	/*arr[10]
+	arr[2][5]
+
+	for(int i = 0; i < row; i++) {
+		for (int j = 0; j < col; j++) {
+			arr[i*5+j]
+			arr[i][j]
+		}
+	}*/
+	matrix = new double*[row];
+	for (int i = 0; i < row; i++) 
 		*(matrix+i) = new double[col];
-		for (int j = 0; j < col; j++)
-			*(*(matrix+i)+j) = 0.0;
-	}
+
+		for (int j = 0; j < row; j++)
+			for (int k = 0; k < col; k++)
+				matrix[j][k] = 0.0;
 }
 
 // THESE ARE GONNA NEED TESTING TO SEE IF ITS FINE
@@ -156,14 +180,26 @@ Matrix Matrix::operator+(Matrix& m) {
 		newMatrix.setRow(row);
 		newMatrix.setRow(col);
 		newMatrix.setName("M3");
-		newMatrix.fill();
+
+		newMatrix.matrix = new double*[row];
+		for (int i = 0; i < row; i++)
+			*(newMatrix.matrix+i) = new double[col];
 
 		for (int i = 0; i < m.getRow(); i++) {
 			for (int j = 0; j < m.getCol(); j++) {
-				*(*(newMatrix.matrix+i)+j) = *(*(matrix+i)+j) + *(*(m.matrix+i)+j); // not sending to the right place
+				newMatrix.matrix[i][j] = *(*(matrix+i)+j) + *(*(m.matrix+i)+j); 
 			}
 		}
 
+		cout << newMatrix.getName() << endl;
+		// THIS WORKS, INTERNAL M3 PRINT DOES NOT
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				cout << newMatrix.matrix[i][j] << " ";
+			}
+			cout << endl;
+		}
+		
 		return newMatrix;
 	}
 	else {
@@ -178,12 +214,24 @@ Matrix Matrix::operator-(Matrix& m) {
 		newMatrix.setRow(row);
 		newMatrix.setRow(col);
 		newMatrix.setName("M4");
-		newMatrix.fill();
+
+		newMatrix.matrix = new double*[row];
+		for (int i = 0; i < row; i++)
+			*(newMatrix.matrix+i) = new double[col];
 
 		for (int i = 0; i < m.getRow(); i++) {
 			for (int j = 0; j < m.getCol(); j++) {
-				*(*(newMatrix.matrix+i)+j) = *(*(matrix+i)+j) - *(*(m.matrix+i)+j);
+				newMatrix.matrix[i][j] = *(*(matrix+i)+j) - *(*(m.matrix+i)+j);
 			}
+		}
+
+		cout << newMatrix.getName() << endl;
+		// THIS WORKS, INTERNAL M3 PRINT DOES NOT
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				cout << newMatrix.matrix[i][j] << " ";
+			}
+			cout << endl;
 		}
 
 		return newMatrix;
@@ -201,14 +249,31 @@ Matrix Matrix::operator*(Matrix& m) {
 		newMatrix.setRow(row);
 		newMatrix.setCol(m.getCol());
 		newMatrix.setName("M5");
-		newMatrix.fill();
+		
+		newMatrix.matrix = new double*[row];
+		for (int i = 0; i < row; i++)
+			*(newMatrix.matrix+i) = new double[col];
 
+		for (int i = 0; i < row; i++) 
+			for (int j = 0; j < col; j++)
+				newMatrix.matrix[i][j] = 0.0;
+
+		// PROBLEM HERE
 		for (int i = 0; i < this->getRow(); i++) {
 			for (int j = 0; i < m.getCol(); j++) {
 				for (int k = 0; k < this->getCol(); k++) {
-					*(*(newMatrix.matrix+i)+j) += *(*(matrix+i)+k) * *(*(m.matrix+k)+j);
+					newMatrix.matrix[i][j] += *(*(matrix+i)+k) * *(*(m.matrix+k)+j);
 				}
 			}
+		}
+
+		cout << newMatrix.getName() << endl;
+		// THIS WORKS, INTERNAL M3 PRINT DOES NOT
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				cout << newMatrix.matrix[i][j] << " ";
+			}
+			cout << endl;
 		}
 
 		return newMatrix;
@@ -234,13 +299,15 @@ int main() {
 
 	M1.menu();
 	M2.menu();
+	M3.preload();
+	M4.preload();
+	M5.preload();
 
+	cout << "This version does not support user interaction to repeat functions." << endl;
+	M1.printMatrix();
+	M2.printMatrix();
 	M3 = M1 + M2;
-
-	//M1.printMatrix();
-	//M2.printMatrix();
-	M3.printMatrix();
-	//M4.printMatrix();
-	//M5.printMatrix();
+	M4 = M1 - M2;
+	M5 = M1 * M2;
 	return 0;
 }
