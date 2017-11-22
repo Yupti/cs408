@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 
 using namespace std;
 
@@ -15,14 +16,14 @@ class Matrix {
 		Matrix operator+(Matrix& m);
 		Matrix operator-(Matrix& m);
 		Matrix operator*(Matrix& m);
-		void menu();
-		void preload(int);
-		void userload();
+		//void menu();
+		//void preload(int);
+		//void userload();
 		void setName(string);
 		void setRow(int);
 		void setCol(int);
-		//void fill();
-		void printMatrix();
+		void size1000();
+		void size2000();
 		string getName();
 		int getRow();
 		int getCol();
@@ -35,94 +36,6 @@ Matrix::Matrix() {
 	col = 0;
 	matrix = 0;
 }
-
-void Matrix::menu() {
-	int loader = 0, loader2 = 0;
-
-	cout << "Setting Matrix values for " << getName() << "." << endl;
-	cout << "Enter (1) for preload settings, or (2) for user input; if not, will default to preload 0." << endl;
-	cin >> loader;
-
-	switch (loader) {
-		case 1:
-			cout << "Enter (1) for M1 preset, or (2) for M2 preset; if not, will default to 0." << endl;
-			cin >> loader2;
-			preload(loader2);
-			break;
-		case 2:
-			userload();
-			break;
-		default:
-			preload(0);
-			break;
-	}
-}
-
-void Matrix::printMatrix() {
-	cout << getName() << endl;
-	if (matrix == 0)
-		cout << "Matrix has not been created." << endl;
-	else {
-		for (int i = 0; i < getRow(); i++) {
-			for (int j = 0; j < getCol(); j++) {
-				cout << matrix[i][j] << " ";
-			}
-			cout << endl;
-		}
-	}
-}
-
-void Matrix::preload(int version = 0) {
-	row = 5;
-	col = 5;
-
-	if (version == 1) {
-		matrix = new double*[row];
-		for (int i = 0; i < row; i++) 
-			*(matrix + i) = new double[col];
-
-		matrix[0][0] = 1.0; matrix[0][1] = 2.0; matrix[0][2] = 3.0; matrix[0][3] = 4.0; matrix[0][4] = 5.0;
-		matrix[1][0] = 2.0; matrix[1][1] = 2.0; matrix[1][2] = 2.0; matrix[1][3] = 2.0; matrix[1][4] = 2.0;
-		matrix[2][0] = 3.0; matrix[2][1] = 1.0; matrix[2][2] = 1.0; matrix[2][3] = 1.0; matrix[2][4] = 3.0;
-		matrix[3][0] = 0.0; matrix[3][1] = 0.0; matrix[3][2] = 2.0; matrix[3][3] - 3.0; matrix[3][4] = -2.0;
-		matrix[4][0] = 4.0; matrix[4][1] = 4.0; matrix[4][2] = -4.0; matrix[4][3] = 0.0; matrix[4][4] = 0.0;
-	}
-	else if (version == 2) {
-		matrix = new double*[row];
-		for (int j  = 0; j < row; j++) 
-			*(matrix + j) = new double[col];
-
-		matrix[0][0] = 1.0; matrix[0][1] = 0.0; matrix[0][2] = 0.0; matrix[0][3] = 0.0; matrix[0][4] = 0.0;
-		matrix[1][0] = 1.0; matrix[1][1] = 2.0; matrix[1][2] = 1.0; matrix[1][3] = 2.0; matrix[1][4] = 1.0;
-		matrix[2][0] = 0.0; matrix[2][1] = 0.0; matrix[2][2] = 1.0; matrix[2][3] = 0.0; matrix[2][4] = 0.0;
-		matrix[3][0] = 1.0; matrix[3][1] = 1.0; matrix[3][2] = 1.0; matrix[3][3] = 1.0; matrix[3][4] = 1.0;
-		matrix[4][0] = 2.0; matrix[4][1] = 2.0; matrix[4][2] = -2.0; matrix[4][3] = 2.0; matrix[4][4] = 2.0;
-	}
-	else {
-		matrix = new double*[row];
-		for (int i = 0; i < row; i++) 
-			*(matrix + i) = new double[col];
-
-		for (int i = 0; i < row; i++)
-			for (int j = 0; j < col; j++)
-				matrix[i][j] = 0.0;
-	}
-}
-
-void Matrix::userload() {
-	cout << "Enter number of rows and columns respecitively, separated by a space for M1" << endl;
-	cin >> row >> col;
-	matrix = new double*[row];
-
-	cout << "Enter all the values for the matrix of size: " << row << " by " << col << endl;
-	for (int i = 0; i < row; i++) {
-		matrix[i] = new double[col];
-		for (int j = 0; j < col; j++) {
-			cin >> matrix[i][j];
-		}
-	}
-}
-
 
 void Matrix::setRow(int r) {
 	this->row = r;
@@ -148,16 +61,38 @@ string Matrix::getName() {
 	return mName;
 }
 
-/*void Matrix::fill() {
+void Matrix::size1000() {
+	
+	row = 1000;
+	col = 1000;
 
 	matrix = new double*[row];
-	for (int i = 0; i < row; i++) 
+	for (int i = 0; i < row; i++)
 		*(matrix+i) = new double[col];
 
-		for (int j = 0; j < row; j++)
-			for (int k = 0; k < col; k++)
-				matrix[j][k] = 0.0;
-}*/
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < col; j++) {
+			matrix[i][j] = 0.0;
+		}
+	}
+
+}
+
+void Matrix::size2000() {
+
+	row = 2000;
+	col = 2000;
+
+	matrix = new double*[row];
+	for (int i = 0; i < row; i++)
+		*(matrix+i) = new double[col];
+
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < col; j++) {
+			matrix[i][j] = 0.0;
+		}
+	}
+}
 
 Matrix Matrix::operator+(Matrix& m) {
 	if ((this->row == m.getRow()) && (this->col == m.getCol())) {
@@ -176,13 +111,13 @@ Matrix Matrix::operator+(Matrix& m) {
 			}
 		}
 
-		cout << newMatrix.getName() << endl;
+		/*cout << newMatrix.getName() << endl;
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
 				cout << newMatrix.matrix[i][j] << " ";
 			}
 			cout << endl;
-		}
+		}*/
 		
 		return newMatrix;
 	}
@@ -209,14 +144,14 @@ Matrix Matrix::operator-(Matrix& m) {
 			}
 		}
 
-		cout << newMatrix.getName() << endl;
+		/*cout << newMatrix.getName() << endl;
 
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
 				cout << newMatrix.matrix[i][j] << " ";
 			}
 			cout << endl;
-		}
+		}*/
 
 		return newMatrix;
 	}
@@ -250,14 +185,14 @@ Matrix Matrix::operator*(Matrix& m) {
 			}
 		}
 
-		cout << newMatrix.getName() << endl;
+		/*cout << newMatrix.getName() << endl;
 
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
 				cout << newMatrix.matrix[i][j] << " ";
 			}
 			cout << endl;
-		}
+		}*/
 
 		return newMatrix;
 	}
@@ -266,6 +201,7 @@ Matrix Matrix::operator*(Matrix& m) {
 		return m;
 	}
 }
+
 
 int main() {
 
@@ -280,17 +216,46 @@ int main() {
 	Matrix M5 = Matrix();
 	M5.setName("M5");
 
-	M1.menu();
-	M2.menu();
-	M3.preload();
-	M4.preload();
-	M5.preload();
+	std::clock_t start;
 
-	cout << "This version does not support user interaction to repeat functions." << endl;
-	M1.printMatrix();
-	M2.printMatrix();
+	std::cout << "Timing for Version #3 Methods" << std::endl;
+	std::cout << "Size for 1000 by 1000" << std::endl;
+	M1.size1000();
+	M2.size1000();
+	M3.size1000();
+	M4.size1000();
+	M5.size1000();
+	std::cout << "Addition" << std::endl;
+	start = std::clock();
 	M3 = M1 + M2;
+	std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+	std::cout << "Subtraction" << std::endl;
+	start = std::clock();
 	M4 = M1 - M2;
+	std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+	std::cout << "Multiplication" << std::endl;
+	start = std::clock();
 	M5 = M1 * M2;
+	std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+
+	std::cout << "Size for 2000 by 2000" << std::endl;
+	M1.size2000();
+	M2.size2000();
+	M3.size2000();
+	M4.size2000();
+	M5.size2000();
+	std::cout << "Addition" << std::endl;
+	start = std::clock();
+	M3 = M1 + M2;
+	std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+	std::cout << "Subtraction" << std::endl;
+	start = std::clock();
+	M4 = M1 - M2;
+	std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+	std::cout << "Multiplication" << std::endl;
+	start = std::clock();
+	M5 = M1 * M2;
+	std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+
 	return 0;
 }
