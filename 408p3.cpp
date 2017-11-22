@@ -1,5 +1,5 @@
 #include <iostream>
-// TODO: POINTER MANIUPULATION DOES NOT WORK, OPERATOR OVERLOAD IS WRONG
+
 using namespace std;
 
 class Matrix {
@@ -65,7 +65,6 @@ void Matrix::printMatrix() {
 	else {
 		for (int i = 0; i < getRow(); i++) {
 			for (int j = 0; j < getCol(); j++) {
-				//cout << *(*(matrix+i)+j) << " ";
 				cout << matrix[i][j] << " ";
 			}
 			cout << endl;
@@ -151,19 +150,6 @@ string Matrix::getName() {
 
 void Matrix::fill() {
 
-	/*matrix = new double*[row];
-		for (int j  = 0; j < row; j++) 
-			*(matrix + j) = new double[col];*/	
-
-	/*arr[10]
-	arr[2][5]
-
-	for(int i = 0; i < row; i++) {
-		for (int j = 0; j < col; j++) {
-			arr[i*5+j]
-			arr[i][j]
-		}
-	}*/
 	matrix = new double*[row];
 	for (int i = 0; i < row; i++) 
 		*(matrix+i) = new double[col];
@@ -226,7 +212,7 @@ Matrix Matrix::operator-(Matrix& m) {
 		}
 
 		cout << newMatrix.getName() << endl;
-		// THIS WORKS, INTERNAL M3 PRINT DOES NOT
+
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
 				cout << newMatrix.matrix[i][j] << " ";
@@ -268,7 +254,7 @@ Matrix Matrix::operator*(Matrix& m) {
 		}
 
 		cout << newMatrix.getName() << endl;
-		// THIS WORKS, INTERNAL M3 PRINT DOES NOT
+
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
 				cout << newMatrix.matrix[i][j] << " ";
